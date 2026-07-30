@@ -1076,14 +1076,6 @@ address{font-style:normal;margin-bottom:14px}
   color:#0B4034;font-size:clamp(22px,3vw,26px);margin:0 0 10px;
 }
 .dv-copy{color:#5C6E66;font-size:16px;margin:0 0 14px}
-.dv-details{
-  border:2px dashed #D9731F;border-radius:16px;text-align:left;
-  background:linear-gradient(180deg,#FFF7DF 0%,#FFFDF6 100%);padding:10px 16px;
-}
-.dv-row{display:flex;justify-content:space-between;align-items:baseline;gap:14px;margin:0;padding:7px 0;font-size:15.5px}
-.dv-row + .dv-row{border-top:1px dashed rgba(217,115,31,.35)}
-.dv-row span{color:#5C6E66}
-.dv-row b{color:#20302A;font-weight:700;text-align:right}
 .dv-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:18px 0 0}
 .dv-btn{
   display:inline-flex;align-items:center;justify-content:center;flex:1 1 140px;
@@ -1093,8 +1085,6 @@ address{font-style:normal;margin-bottom:14px}
   transition:background .18s,border-color .18s,color .18s;
 }
 .dv-btn:hover{background:#9C4F10;border-color:#9C4F10;color:#FFFFFF}
-.dv-btn.dv-ghost{background:transparent;border-color:#0F5646;color:#0F5646}
-.dv-btn.dv-ghost:hover{background:#0F5646;color:#FFFFFF}
 :where(.dv-btn,.dv-close){cursor:pointer}
 .dv-note{color:#5C6E66;font-size:13.5px;margin:12px 0 0}
 #dvThanks .dv-title{margin-top:8px}
@@ -1140,15 +1130,9 @@ address{font-style:normal;margin-bottom:14px}
     <div id="dvMain">
       <p class="dv-kicker" id="dvKicker"></p>
       <h2 class="dv-title" id="dvTitle"></h2>
-      <p class="dv-copy">Your local duck is in the running, and every vote counts. When the form asks, just pop in:</p>
-      <div class="dv-details">
-        <p class="dv-row"><span>Category</span><b id="dvCat"></b></p>
-        <p class="dv-row"><span>Cafe name</span><b id="dvCafe"></b></p>
-        <p class="dv-row"><span>Location</span><b id="dvLoc"></b></p>
-      </div>
+      <p class="dv-copy">Your local duck is in the running, and every vote counts.</p>
       <p class="dv-btns">
         <a class="dv-btn" id="dvVote" href="#" target="_blank" rel="noopener">Vote now</a>
-        <button class="dv-btn dv-ghost" id="dvLater" type="button">Maybe later</button>
       </p>
       <p class="dv-note" id="dvNote"></p>
     </div>
@@ -1169,11 +1153,9 @@ address{font-style:normal;margin-bottom:14px}
     link: "https://www.surveymonkey.com/r/FoodAwardsIreland",
     award: "The Food Awards Ireland 2026",
     category: "Cafe of the Year",
-    cafeName: "The Duck Cafe",
-    location: "Dublin",
-    closes: "2026-09-30",      /* TODO: e.g. "2026-08-31". Popup retires itself after this day. "" = no end date. */
+    closes: "2026-09-30",      /* Popup retires itself after this day. "" = no end date. */
     delayMs: 6000,   /* how long to wait before showing */
-    snoozeDays: 5    /* how long "Maybe later" hides it for */
+    snoozeDays: 5    /* how long closing the popup hides it for */
   };
   /* ---------------------------------------------- */
  
@@ -1221,9 +1203,6 @@ address{font-style:normal;margin-bottom:14px}
   function fill() {
     $("dvKicker").textContent = VOTE.award;
     $("dvTitle").textContent = "Vote us " + VOTE.category + "!";
-    $("dvCat").textContent = VOTE.category;
-    $("dvCafe").textContent = VOTE.cafeName;
-    $("dvLoc").textContent = VOTE.location;
     $("dvVote").href = VOTE.link;
     var note = "Takes about a minute, one vote per person.";
     $("dvNote").textContent = note;
@@ -1271,7 +1250,6 @@ address{font-style:normal;margin-bottom:14px}
   }
  
   $("dvClose").addEventListener("click", snooze);
-  $("dvLater").addEventListener("click", snooze);
   overlay.addEventListener("click", function (e) { if (e.target === overlay) { snooze(); } });
   $("dvVote").addEventListener("click", function () {
     writeState({ voted: true });
