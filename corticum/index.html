@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Corticum OS · Living-loop intelligence</title>
+<meta name="description" content="Every company will get a brain. Grow yours first. Corticum OS, the operating system of the living enterprise. Request early access.">
+<meta property="og:title" content="Corticum OS · Every company will get a brain">
+<meta property="og:description" content="The operating system of the living enterprise. Sense · Mind · Act. Request early access.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0B0D0C">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%230B0D0C'/%3E%3Crect x='10' y='10' width='44' height='44' fill='none' stroke='%23F4F0E7' stroke-width='2'/%3E%3Crect x='20' y='20' width='24' height='24' fill='none' stroke='%23F4F0E7' stroke-opacity='.35' stroke-width='2'/%3E%3Crect x='27' y='27' width='10' height='10' fill='%23D52B1E'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://api.fontshare.com">
+<link href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F4F0E7;
+  --ink:#0B0D0C;
+  --red:#D52B1E;
+  --muted:rgba(244,240,231,.6);
+  --faint:rgba(244,240,231,.38);
+  --line:rgba(244,240,231,.18);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{
+  background:var(--ink);
+  color:var(--paper);
+  font-family:'Switzer','Helvetica Neue',Helvetica,Arial,sans-serif;
+  font-size:17px;line-height:1.55;letter-spacing:-.008em;
+  -webkit-font-smoothing:antialiased;
+  overflow:hidden;
+  --px:62%;--py:44%;
+}
+::selection{background:var(--red);color:#fff}
+:focus-visible{outline:3px solid var(--red);outline-offset:3px}
+button,input{font:inherit;color:inherit}
+.grid-tex{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(rgba(244,240,231,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(244,240,231,.05) 1px,transparent 1px);
+  background-size:42px 42px}
+.glow{position:fixed;inset:0;pointer-events:none;z-index:1;
+  background:radial-gradient(circle 300px at var(--px) var(--py),rgba(213,43,30,.15),transparent 72%)}
+#cortex{position:fixed;inset:0;width:100%;height:100%;z-index:2}
+.stage{position:relative;z-index:3;height:100%;display:flex;flex-direction:column;
+  padding:clamp(22px,3.4vw,44px) clamp(22px,4vw,60px)}
+.top{display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{display:flex;align-items:center;gap:13px;text-decoration:none;color:inherit}
+.brand-mark{position:relative;width:27px;height:27px;border:1px solid currentColor;flex:0 0 auto}
+.brand-mark::before{content:"";position:absolute;inset:5px;border:1px solid currentColor;opacity:.28}
+.brand-mark::after{content:"";position:absolute;left:50%;top:50%;width:7px;height:7px;transform:translate(-50%,-50%);background:var(--red)}
+.brand-word{font-weight:600;font-size:1.12rem;letter-spacing:-.02em}
+.brand-word .dot{color:var(--red)}
+.top-tag{font-family:'JetBrains Mono',monospace;font-size:.56rem;letter-spacing:.24em;text-transform:uppercase;color:var(--faint)}
+.mid{flex:1;display:flex;flex-direction:column;justify-content:center;max-width:640px}
+.eyebrow{display:flex;align-items:center;gap:12px;font-family:'JetBrains Mono',monospace;
+  font-size:.6rem;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);margin-bottom:30px}
+.eyebrow i{width:7px;height:7px;background:var(--red)}
+h1{font-weight:600;font-size:clamp(2.6rem,6.2vw,4.9rem);line-height:1.02;letter-spacing:-.035em;margin-bottom:26px}
+h1 .red{color:var(--red)}
+.sub{font-size:1.05rem;color:var(--muted);max-width:44ch;margin-bottom:40px}
+.wl{max-width:480px}
+.wl-form{display:flex}
+.wl-form input{flex:1;min-width:0;background:rgba(244,240,231,.05);border:1px solid var(--line);border-right:0;
+  padding:15px 18px;color:var(--paper);font-size:.95rem}
+.wl-form input::placeholder{color:var(--faint)}
+.wl-form input:focus{outline:none;border-color:var(--red)}
+.btn{display:inline-flex;align-items:center;justify-content:center;background:var(--red);color:#fff;
+  border:1px solid var(--red);cursor:pointer;font-weight:600;font-size:.92rem;letter-spacing:-.01em;
+  padding:15px 26px;white-space:nowrap;transition:background .2s ease,border-color .2s ease}
+.btn:hover{background:#B92315;border-color:#B92315}
+.form-err{font-size:.85rem;color:#F2A196;margin-top:10px;min-height:1.1em}
+.form-note{margin-top:12px;font-family:'JetBrains Mono',monospace;font-size:.56rem;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--faint)}
+.wl-done{display:inline-flex;align-items:center;gap:13px;border:1px solid var(--line);padding:16px 22px;background:rgba(244,240,231,.04)}
+.wl-done .tick{color:var(--red)}
+.wl-done p{font-size:.95rem}
+.bottom{display:flex;align-items:center;justify-content:space-between;gap:20px;
+  font-family:'JetBrains Mono',monospace;font-size:.56rem;letter-spacing:.22em;text-transform:uppercase;color:var(--faint)}
+.bottom .triad b{color:var(--paper);font-weight:500}
+.bottom .triad i{color:var(--red);font-style:normal}
+.sub{margin-bottom:24px}
+.feed{margin-bottom:34px;min-height:1.3em;font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.14em;text-transform:lowercase;color:var(--faint)}
+.feed i{font-style:normal;color:var(--paper)}
+.feed b{font-weight:600;color:var(--red)}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+@media(max-width:760px){
+  body{overflow:auto}
+  #cortex{opacity:.45}
+  .stage{min-height:100svh}
+  .top-tag{display:none}
+  .wl-form{flex-direction:column}
+  .wl-form input{border-right:1px solid var(--line)}
+  .wl-form input:focus{border-color:var(--red)}
+  .wl-form .btn{width:100%;margin-top:12px}
+  .bottom{flex-direction:column;align-items:flex-start;gap:10px}
+}
+@media(prefers-reduced-motion:reduce){
+  .btn{transition:none}
+}
+</style>
+</head>
+<body>
+<div class="grid-tex" aria-hidden="true"></div>
+<div class="glow" aria-hidden="true"></div>
+<canvas id="cortex" aria-hidden="true"></canvas>
+<div class="stage">
+  <header class="top">
+    <a class="brand" href="#"><span class="brand-mark" aria-hidden="true"></span><span class="brand-word">Corticum<span class="dot">.</span></span></a>
+    <span class="top-tag">Zürich · Switzerland</span>
+  </header>
+  <main class="mid">
+    <div class="eyebrow"><i></i>Corticum OS · Living-loop intelligence</div>
+    <h1>Every company will get a brain.<br><span class="red">Grow yours first.</span></h1>
+    <p class="sub">The operating system of the living enterprise. One living loop across people, software, AI agents and machines: it senses, decides, acts, corrects itself, and never stops learning.</p>
+    <p class="feed" id="feed" aria-live="polite">initializing agents…</p>
+    <div class="wl">
+      <form class="wl-form" novalidate>
+        <input type="hidden" name="access_key" value="ee88272d-0900-4031-8313-f2a352a1bd5a">
+        <input type="hidden" name="subject" value="Corticum teaser · access request">
+        <input type="hidden" name="from_name" value="Corticum Teaser">
+        <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off">
+        <label for="wl-email" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Work email</label>
+        <input id="wl-email" type="email" name="email" placeholder="you@company.com" autocomplete="email" required>
+        <button class="btn" type="submit">Request early access</button>
+      </form>
+      <p class="form-err" role="status" aria-live="polite"></p>
+      <p class="form-note">One update that matters. Nothing else.</p>
+    </div>
+  </main>
+  <footer class="bottom">
+    <span class="triad"><b>Sense</b> <i>·</i> <b>Mind</b> <i>·</i> <b>Act</b></span>
+    <span>© 2026 Corticum OS</span>
+  </footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* pointer glow */
+  document.addEventListener('pointermove', function(e){
+    document.body.style.setProperty('--px', (e.clientX / innerWidth * 100) + '%');
+    document.body.style.setProperty('--py', (e.clientY / innerHeight * 100) + '%');
+  });
+
+  /* ---- the self-correcting cortex ---- */
+  var cv = document.getElementById('cortex');
+  var cx = cv.getContext('2d');
+  var W, H, S, ox, oy;
+
+  var blobs = [
+    {x: 0,     y: -0.06, rx: 0.46, ry: 0.34, rot: -0.05},
+    {x: -0.34, y: 0.02,  rx: 0.22, ry: 0.24, rot: 0.25},
+    {x: 0.3,   y: 0.0,   rx: 0.24, ry: 0.26, rot: -0.2},
+    {x: 0.26,  y: 0.3,   rx: 0.15, ry: 0.11, rot: -0.3}
+  ];
+  function inBrain(x, y){
+    return blobs.some(function(b){
+      var dx = x - b.x, dy = y - b.y;
+      var c = Math.cos(b.rot), s = Math.sin(b.rot);
+      var u = (dx*c + dy*s)/b.rx, v = (-dx*s + dy*c)/b.ry;
+      return u*u + v*v <= 1;
+    });
+  }
+
+  var N = 150, nodes = [], edges = [], adj = [];
+  var tries = 0;
+  while(nodes.length < N && tries++ < 9000){
+    var x = (Math.random()*2 - 1)*0.78, y = (Math.random()*2 - 1)*0.62;
+    if(!inBrain(x, y)) continue;
+    if(nodes.some(function(n){return (n.x-x)*(n.x-x) + (n.y-y)*(n.y-y) < 0.0035;})) continue;
+    nodes.push({x:x, y:y, ph:Math.random()*6.28, hp:1, fault:false});
+  }
+  for(var st=0; st<4; st++){
+    nodes.push({x:0.3 + st*0.035, y:0.4 + st*0.052, ph:Math.random()*6.28, hp:1, fault:false});
+  }
+  nodes.forEach(function(){adj.push([]);});
+  nodes.forEach(function(a, i){
+    nodes.map(function(b, j){return {j:j, d:(a.x-b.x)*(a.x-b.x) + (a.y-b.y)*(a.y-b.y)};})
+      .filter(function(o){return o.j !== i;})
+      .sort(function(p, q){return p.d - q.d;})
+      .slice(0, 3)
+      .forEach(function(o){
+        var k = i < o.j ? i + '-' + o.j : o.j + '-' + i;
+        if(!edges.some(function(e){return e.k === k;})){
+          edges.push({k:k, a:i, b:o.j});
+          adj[i].push(o.j);
+          adj[o.j].push(i);
+        }
+      });
+  });
+
+  var AGENTS = 14;
+  var agents = [];
+  for(var ai=0; ai<AGENTS; ai++){
+    agents.push({at:Math.floor(Math.random()*nodes.length), to:null, t:0, path:[],
+      speed:0.01 + Math.random()*0.006, id:String(ai+1).padStart(2, '0'), repairing:false});
+  }
+  agents.forEach(function(a){a.to = adj[a.at][0] != null ? adj[a.at][0] : a.at;});
+
+  function bfs(from, goal){
+    var prev = new Map([[from, null]]), q = [from];
+    while(q.length){
+      var n = q.shift();
+      if(n === goal) break;
+      for(var m=0; m<adj[n].length; m++){
+        if(!prev.has(adj[n][m])){prev.set(adj[n][m], n); q.push(adj[n][m]);}
+      }
+    }
+    if(!prev.has(goal)) return [];
+    var path = [], node = goal;
+    while(node !== null){path.unshift(node); node = prev.get(node);}
+    return path.slice(1);
+  }
+
+  var fault = null, ripples = [];
+  var feed = document.getElementById('feed');
+  var idle = [
+    'agent_<i>{A}</i> · sweep sector {S} · all nodes verified',
+    'cross-checking source document against node #{N}',
+    'provenance chain intact · node #{N} · dated · sourced',
+    'reconciling external feed Δ · {S} lattice',
+    'agent_<i>{A}</i> · heartbeat nominal · lattice coherent'
+  ];
+  function say(text){feed.innerHTML = text;}
+  function fmt(s){
+    return s.replace('{A}', agents[Math.floor(Math.random()*AGENTS)].id)
+      .replace('{S}', ['FRONTAL','PARIETAL','OCCIPITAL','TEMPORAL'][Math.floor(Math.random()*4)])
+      .replace('{N}', 1000 + Math.floor(Math.random()*9000));
+  }
+  function spawnFault(){
+    if(fault) return;
+    var i = Math.floor(Math.random()*nodes.length);
+    fault = {n:i, born:performance.now()};
+    nodes[i].fault = true;
+    say('<b>⚠ fault</b> · node #' + (3000+i) + ' · incomplete data detected · dispatching agent');
+    var best = 0, bd = 1e9;
+    agents.forEach(function(a, k){
+      var d = (nodes[a.at].x - nodes[i].x)*(nodes[a.at].x - nodes[i].x)
+            + (nodes[a.at].y - nodes[i].y)*(nodes[a.at].y - nodes[i].y);
+      if(d < bd){bd = d; best = k;}
+    });
+    var a = agents[best];
+    a.path = bfs(a.to, i);
+    a.repairing = true;
+  }
+  function repair(i, agent){
+    nodes[i].fault = false;
+    nodes[i].hp = 0;
+    fault = null;
+    ripples.push({x:nodes[i].x, y:nodes[i].y, r:0});
+    say('agent_<i>' + agent.id + '</i> · node #' + (3000+i) + ' <i>repaired</i> · re-verified against source');
+  }
+  if(!reduced){
+    setInterval(function(){
+      if(!document.hidden && !fault && Math.random() < 0.6) spawnFault();
+    }, 4200);
+    setInterval(function(){
+      if(!document.hidden && !fault) say(fmt(idle[Math.floor(Math.random()*idle.length)]));
+    }, 3400);
+  }
+
+  var mx = -1, my = -1;
+  addEventListener('pointermove', function(e){mx = e.clientX; my = e.clientY;});
+
+  function size(){
+    var dpr = Math.min(devicePixelRatio || 1, 2);
+    W = innerWidth; H = innerHeight;
+    cv.width = W*dpr; cv.height = H*dpr;
+    cx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var wide = W > 760;
+    S = Math.min(W*(wide ? 0.5 : 0.72), H*0.72);
+    ox = wide ? W*0.64 : W/2;
+    oy = H*0.44;
+  }
+  size();
+  addEventListener('resize', size);
+  function px(n){return ox + n.x*S;}
+  function py(n){return oy + n.y*S;}
+
+  var T = 0, raf = null;
+  function frame(){
+    raf = null;
+    T += 0.016;
+    cx.clearRect(0, 0, W, H);
+
+    cx.lineWidth = 1;
+    edges.forEach(function(e){
+      var a = nodes[e.a], b = nodes[e.b];
+      var hot = a.fault || b.fault;
+      cx.strokeStyle = hot ? 'rgba(213,43,30,.4)' : 'rgba(244,240,231,.13)';
+      cx.beginPath(); cx.moveTo(px(a), py(a)); cx.lineTo(px(b), py(b)); cx.stroke();
+    });
+
+    nodes.forEach(function(n){
+      n.hp = Math.min(1, n.hp + 0.02);
+      var pulse = 0.55 + 0.45*Math.sin(T*1.6 + n.ph);
+      var r = 1.4 + pulse*1.1, col;
+      if(n.fault){
+        var fl = Math.sin(T*18) > 0 ? 1 : 0.3;
+        col = 'rgba(213,43,30,' + fl + ')';
+        r = 3.2;
+        cx.shadowColor = '#D52B1E';
+        cx.shadowBlur = 16;
+      } else {
+        var heal = n.hp < 1 ? 1 - n.hp : 0;
+        col = heal > 0
+          ? 'rgba(' + ((213 + 31*n.hp)|0) + ',' + ((43 + 197*n.hp)|0) + ',' + ((30 + 201*n.hp)|0) + ',.95)'
+          : 'rgba(244,240,231,' + (0.3 + 0.45*pulse) + ')';
+        cx.shadowColor = '#F4F0E7';
+        cx.shadowBlur = 5*pulse;
+      }
+      cx.fillStyle = col;
+      cx.beginPath(); cx.arc(px(n), py(n), r, 0, 6.28); cx.fill();
+      cx.shadowBlur = 0;
+    });
+
+    ripples = ripples.filter(function(rp){return rp.r < 0.16;});
+    ripples.forEach(function(rp){
+      rp.r += 0.004;
+      cx.strokeStyle = 'rgba(213,43,30,' + (1 - rp.r/0.16) + ')';
+      cx.lineWidth = 1.2;
+      cx.beginPath(); cx.arc(ox + rp.x*S, oy + rp.y*S, rp.r*S, 0, 6.28); cx.stroke();
+    });
+
+    if(!reduced){
+      agents.forEach(function(a){
+        a.t += a.speed;
+        if(a.t >= 1){
+          a.t = 0;
+          a.at = a.to;
+          if(a.repairing && fault && a.at === fault.n){
+            repair(a.at, a);
+            a.repairing = false;
+            a.path = [];
+          }
+          a.to = a.path.length
+            ? a.path.shift()
+            : (adj[a.at][Math.floor(Math.random()*adj[a.at].length)] != null
+                ? adj[a.at][Math.floor(Math.random()*adj[a.at].length)]
+                : a.at);
+        }
+        var n1 = nodes[a.at], n2 = nodes[a.to];
+        var x = px(n1) + (px(n2) - px(n1))*a.t;
+        var y = py(n1) + (py(n2) - py(n1))*a.t;
+        cx.shadowColor = '#D52B1E';
+        cx.shadowBlur = 14;
+        cx.fillStyle = a.repairing ? '#D52B1E' : '#E8A79B';
+        cx.beginPath(); cx.arc(x, y, a.repairing ? 3 : 2.2, 0, 6.28); cx.fill();
+        cx.shadowBlur = 0;
+        cx.strokeStyle = 'rgba(213,43,30,.25)';
+        cx.lineWidth = 1;
+        cx.beginPath(); cx.moveTo(px(n1), py(n1)); cx.lineTo(x, y); cx.stroke();
+      });
+    }
+
+    if(mx > 0 && !reduced){
+      cx.strokeStyle = 'rgba(244,240,231,.32)';
+      cx.lineWidth = 1;
+      cx.beginPath(); cx.arc(mx, my, 14, 0, 6.28); cx.stroke();
+      cx.beginPath();
+      cx.moveTo(mx-22, my); cx.lineTo(mx-8, my);
+      cx.moveTo(mx+8, my); cx.lineTo(mx+22, my);
+      cx.moveTo(mx, my-22); cx.lineTo(mx, my-8);
+      cx.moveTo(mx, my+8); cx.lineTo(mx, my+22);
+      cx.stroke();
+    }
+
+    if(!reduced && !document.hidden) raf = requestAnimationFrame(frame);
+  }
+  frame();
+  document.addEventListener('visibilitychange', function(){
+    if(!document.hidden && !reduced && !raf) raf = requestAnimationFrame(frame);
+  });
+  if(reduced){say('lattice verified · agents standing by');}
+
+  /* ---- access request via Web3Forms ---- */
+  var block = document.querySelector('.wl');
+  var form = block.querySelector('.wl-form');
+  var err = block.querySelector('.form-err');
+  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    err.textContent = '';
+    var email = form.querySelector('input[type=email]').value.trim();
+    if(!EMAIL_RE.test(email)){
+      err.textContent = 'Enter a valid email address to request access.';
+      return;
+    }
+    var btn = form.querySelector('button');
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+      body: JSON.stringify(Object.fromEntries(new FormData(form)))
+    }).then(function(res){return res.json();})
+      .then(function(data){
+        if(data.success){
+          block.innerHTML = '<div class="wl-done"><span class="tick" aria-hidden="true">&#10003;</span><p>You are on the list. We will be in touch when it matters.</p></div>';
+          say('new observer registered · <i>' + email.replace(/@.*/, '@…') + '</i> · queued for access');
+        } else {throw new Error('failed');}
+      })
+      .catch(function(){
+        btn.disabled = false;
+        btn.textContent = 'Request early access';
+        err.textContent = 'Something went wrong. Please try again.';
+      });
+  });
+})();
+</script>
+</body>
+</html>
