@@ -1226,10 +1226,6 @@ address{font-style:normal;margin-bottom:14px}
     $("dvLoc").textContent = VOTE.location;
     $("dvVote").href = VOTE.link;
     var note = "Takes about a minute, one vote per person.";
-    if (VOTE.closes && !pastDeadline()) {
-      var nd = niceDate(VOTE.closes);
-      if (nd) { note = "Voting closes " + nd + ". " + note; }
-    }
     $("dvNote").textContent = note;
   }
  
